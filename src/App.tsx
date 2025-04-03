@@ -1,31 +1,44 @@
-import { useState } from "react";
-import Card from "./card";
-import "./App.css";
+import { useState } from 'react';
+import './App.css';
 
-interface PerrosLista {
-  id: number;
-  image: string;
-  feoCount: number;
-  bonitoCount: number;
+interface Dog {
+  imgUrl: string;
+  likes: number;
+  dislikes: number;
 }
 
 function App() {
-  const [perros, setPerros] = useState<PerrosLista[]>([]);
-
-  const agregarPerro = () => {
-    const nuevoPerro: PerrosLista = {
-      id: Date.now(),
-      image:
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSFUAfyVe3Easiycyh3isP9wDQTYuSmGPsPQvLIJdEYvQ_DsFq5Ez2Nh_QjiS3oZ3B8ZPfK9cZQyIStmQMV1lDPLw",
-      feoCount: 0,
-      bonitoCount: 0,
-    };
-
-    setPerros([...perros, nuevoPerro]);
-  };
+  const [dogList, setDogList] = useState<Dog[]>([]);
+  const handleClick = () => {
+    setDogList([
+      ...dogList,
+      {
+        imgUrl:
+          'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQTk2ybkcp3PXrN_SNXG7KA2EYuG99kQIM3Gw&s',
+        likes: 0,
+        dislikes: 0,
+      }
+    ])
+  }
   return (
     <>
-      <button className="btm-añadir-final" onClick={agregarPerro}></button>
+        <button className='add-btn' onClick={handleClick()}></button>
+        <div className="dog-list">
+          {dogList.map(dog) => {
+            return(
+              <div className='dog'>
+            <img src={dog.imgUrl} alt='dog' />
+            <div className='dog__votes'>
+              <span>{dog.likes} ❤️</span>
+              <span>{dog.dislikes} 🤢</span>
+              <div className='dog__actions'></div>
+              <button>like</button>
+              <button>dislike</button>
+            </div>
+          </div>
+            )
+          }}
+        </div>
     </>
   );
 }
